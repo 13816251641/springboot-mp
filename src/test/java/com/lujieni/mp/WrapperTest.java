@@ -16,24 +16,21 @@ import java.util.function.Function;
  * @Auther ljn
  * @Date 2019/11/16
  */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Slf4j
 public class WrapperTest {
     @Test
     public void test(){
-     /*   String sqlSelect = new QueryWrapper<User>()
+        String sqlSelect = new QueryWrapper<User>()
                 .apply("date_format(dateColumn,'%Y-%m-%d') = {0}", "2008-08-08").getSqlSegment();
-        System.out.println(sqlSelect);*/
+        System.out.println(sqlSelect);
         String sqlSegment = new QueryWrapper<User>().eq("name", "lujieni").getSqlSegment();
         System.out.println(sqlSegment);
-
         Function<User, Integer> getAge = User::getAge;
-
         new QueryWrapper<User>().lambda().eq(User::getAge,23);
-
     }
-
 
 
     @Test

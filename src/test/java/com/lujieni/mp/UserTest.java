@@ -1,3 +1,4 @@
+
 package com.lujieni.mp;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -20,10 +21,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * @Auther ljn
  * @Date 2019/11/15
  */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Slf4j
@@ -120,9 +123,6 @@ public class UserTest {
     }
 
 
-
-
-
     @Test
     public void testSelect() {
         log.info(("----- selectAll method test ------"));
@@ -217,6 +217,7 @@ public class UserTest {
         log.info(iPage.toString());
     }
 
+
     /**
      * 分页查询,注意要配置分页插件才可以!!!
      * 返回的数据是List<Map<String, Object>>的格式
@@ -227,7 +228,7 @@ public class UserTest {
         IPage<Map<String, Object>> mapIPage = userMapper.selectMapsPage(page, new QueryWrapper<User>().eq("name", "angel"));
         System.out.println(mapIPage.getCurrent());//当前页码,从1开始
         System.out.println(mapIPage.getTotal());//满足数据的总条数
-        /*按照当前的分页参数,返回数据可以分多少页*/
+       /*按照当前的分页参数,返回数据可以分多少页*/
         System.out.println(mapIPage.getPages());
         /* 每页显示的条数 */
         System.out.println(mapIPage.getSize());
@@ -236,8 +237,5 @@ public class UserTest {
         log.info(mapIPage.toString());
     }
 
-    public void testA(){
-
-    }
-
 }
+
