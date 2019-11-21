@@ -27,6 +27,6 @@ public class LambdaTest {
 
     @Test
     public void test(){
-        useLambda(User::getAge,20);
+        useLambda(User::getAge,20);//User::getAge代表调用User的getAge方法
     }
 }

@@ -62,7 +62,7 @@ public class CodeGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         //pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.lujieni.mp");
+        pc.setParent("com.lujieni.mp.hello");
         pc.setMapper("dao");//mapper接口的包名
         mpg.setPackageInfo(pc);
 

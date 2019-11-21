@@ -3,6 +3,9 @@ package com.lujieni.mp.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -28,6 +31,9 @@ public class Person implements Serializable {
     private String hobbyName;
 
     private Integer age;
+
+    @Version
+    private Date updateTime;
 
 
 }
