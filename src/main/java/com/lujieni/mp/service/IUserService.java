@@ -1,6 +1,6 @@
 package com.lujieni.mp.service;
 
-import com.lujieni.mp.entity.User;
+import com.lujieni.mp.domain.po.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

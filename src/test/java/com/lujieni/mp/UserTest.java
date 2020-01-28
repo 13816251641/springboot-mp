@@ -6,7 +6,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lujieni.mp.dao.UserMapper;
-import com.lujieni.mp.entity.User;
+import com.lujieni.mp.domain.bo.UserCount;
+import com.lujieni.mp.domain.po.User;
 import com.lujieni.mp.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -36,6 +37,33 @@ public class UserTest {
     private IUserService iUserService;
 
 
+    @Test
+    public void testSqlInXml(){
+      /*  User user = userMapper.selectMethod();
+          System.out.println(user);*/
+
+     /*   List<User> users = userMapper.selectMethod2();
+          System.out.println(users);*/
+
+       /*
+        User user = new User();
+        user.setEmail("test1@baomidou.com");
+        List<UserCount> users = userMapper.selectMethod3(user);这里传入null,sql也不会报错
+        System.out.println(users);
+        */
+
+        List<User> users = userMapper.selectMethod4(null);
+        System.out.println(users);
+
+    }
+
+
+
+
+    /*
+        插入一条数据
+       INSERT INTO user ( name ) VALUES ( '光头强' )
+     */
     @Test
     public void testSave(){
         /*INSERT INTO user ( name ) VALUES ( ? )*/

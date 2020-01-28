@@ -1,6 +1,6 @@
 package com.lujieni.mp;
 
-import com.lujieni.mp.entity.User;
+import com.lujieni.mp.domain.po.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

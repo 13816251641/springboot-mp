@@ -1,7 +1,7 @@
 package com.lujieni.mp.controller;
 
 
-import com.lujieni.mp.entity.Person;
+import com.lujieni.mp.domain.po.Person;
 import com.lujieni.mp.service.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

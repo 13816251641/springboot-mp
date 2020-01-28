@@ -1,8 +1,7 @@
 package com.lujieni.mp;
 
-import com.lujieni.mp.entity.Person;
+import com.lujieni.mp.domain.po.Person;
 import com.lujieni.mp.service.IPersonService;
-import com.lujieni.mp.service.IUserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +27,9 @@ public class OptimisticLockerTest {
      * 执行更新时， set version = newVersion where version = oldVersion
      * 如果version不对，就更新失败
      *
-     * newVersion会回写到 entity 中
-     * 仅支持updateById(id)与update(entity, wrapper)方法
-     * 在update(entity, wrapper)方法下,wrapper不能复用!!!
+     * newVersion会回写到 domain 中
+     * 仅支持updateById(id)与update(domain, wrapper)方法
+     * 在update(domain, wrapper)方法下,wrapper不能复用!!!
      */
     @Test
     public void test(){

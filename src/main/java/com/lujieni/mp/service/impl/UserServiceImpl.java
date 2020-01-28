@@ -1,6 +1,6 @@
 package com.lujieni.mp.service.impl;
 
-import com.lujieni.mp.entity.User;
+import com.lujieni.mp.domain.po.User;
 import com.lujieni.mp.dao.UserMapper;
 import com.lujieni.mp.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

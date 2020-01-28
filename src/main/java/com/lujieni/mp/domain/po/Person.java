@@ -1,10 +1,12 @@
-package com.lujieni.mp.entity;
+package com.lujieni.mp.domain.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.Version;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
@@ -17,18 +19,19 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class User implements Serializable {
+public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
-    private String name;
+    private String hobbyName;
 
     private Integer age;
 
-    private String email;
+    @Version
+    private Date updateTime;
 
 
 }

@@ -1,8 +1,11 @@
 package com.lujieni.mp.dao;
 
-import com.lujieni.mp.entity.User;
+import com.lujieni.mp.domain.bo.UserCount;
+import com.lujieni.mp.domain.po.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +17,13 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserMapper extends BaseMapper<User> {
+
+    User selectMethod();
+
+    List<User> selectMethod2();
+
+    List<UserCount> selectMethod3(User user);
+
+    List<User> selectMethod4(User user);
 
 }

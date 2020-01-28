@@ -1,6 +1,6 @@
 package com.lujieni.mp.dao;
 
-import com.lujieni.mp.entity.Person;
+import com.lujieni.mp.domain.po.Person;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

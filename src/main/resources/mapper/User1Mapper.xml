@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--xml文件的名字不需要和dao保持一样-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lujieni.mp.dao.UserMapper">
+
+    <resultMap id="myResultMap" type="com.lujieni.mp.domain.po.User">
+        <result column="count" property="id" />
+        <result column="age" property="age" />
+    </resultMap>
+
+
+    <select id="selectMethod" resultType="com.lujieni.mp.domain.po.User" >
+        select * from user where id=1
+    </select>
+
+    <select id="selectMethod2" resultType="com.lujieni.mp.domain.po.User" >
+        select * from user
+    </select>
+
+    <select id="selectMethod3" parameterType="com.lujieni.mp.domain.po.User" resultType="com.lujieni.mp.domain.bo.UserCount" >
+        select count(*) count,age from user
+        <where>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+        </where>
+        GROUP BY age
+        order by count(*) desc
+    </select>
+
+    <select id="selectMethod4" parameterType="com.lujieni.mp.domain.po.User" resultMap="myResultMap" >
+        select count(*) count,age from user
+        <where>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+        </where>
+        GROUP BY age
+        order by count(*) desc
+    </select>
+</mapper>
