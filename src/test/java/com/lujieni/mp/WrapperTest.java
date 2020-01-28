@@ -21,6 +21,9 @@ import java.util.function.Function;
 @SpringBootTest
 @Slf4j
 public class WrapperTest {
+
+
+
     @Test
     public void test(){
         String sqlSelect = new QueryWrapper<User>()

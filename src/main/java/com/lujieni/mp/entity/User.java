@@ -16,7 +16,6 @@ import lombok.experimental.Accessors;
  * @since 2019-11-20
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class User implements Serializable {
 

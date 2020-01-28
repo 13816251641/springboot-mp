@@ -16,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -138,27 +135,52 @@ public class UserTest {
         userMapper.insert(user);
     }
 
+
+    /**
+     * 根据ID删除一条数据
+     */
     @Test
     public void testDeleteById() {
-        Long id = 7L;
+        Long id = 15L;
         userMapper.deleteById(id);
-
     }
 
     /**
-     * 通用删除操作 deleteByMap  map要写列名条件 不能是实体属性名!!!
+     * 根据ID批量删除数据,不会有性能问题
+     * DELETE FROM user WHERE id IN ( ? , ? )
+     */
+    @Test
+    public void testDeleteByIdInBatch() {
+        List<Long> ids = Arrays.asList(14L, 13L);
+        userMapper.deleteBatchIds(ids);
+    }
+
+
+    /**
+     * 通用删除操作 deleteByMap
+     * map要写列名条件 不能是实体属性名!!!
+     * DELETE FROM user WHERE name = 'angel' AND age = 12
      */
     @Test
     public void testDeleteByMap() {
         Map<String, Object> columnMap = new HashMap<>();
-        columnMap.put("name","Billie");
+        columnMap.put("name","angel");
+        columnMap.put("age",12);
         userMapper.deleteByMap(columnMap);
     }
 
+    /**
+     * 注意方法的嵌套
+     * DELETE FROM user WHERE (age = 21 AND name = 'av' OR ( (age < 24 AND name = '张三') ))
+     * sql的优先级: and > or
+     * 所以:age=21且name=av 或者 age<24且name=张三
+     */
     @Test
     public void testDelete() {
         LambdaQueryWrapper<User> lambdaQueryWrapper = new QueryWrapper<User>().lambda();
-        lambdaQueryWrapper.eq(User::getAge,21).or().eq(User::getName,"av");
+        lambdaQueryWrapper.eq(User::getAge,21)
+                          .eq(User::getName,"av")
+                          .or(i -> i.lt(User::getAge,24).eq(User::getName,"张三"));
         userMapper.delete(lambdaQueryWrapper);
     }
 
