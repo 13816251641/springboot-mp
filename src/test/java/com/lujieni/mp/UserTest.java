@@ -6,9 +6,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lujieni.mp.dao.UserMapper;
-import com.lujieni.mp.domain.bo.UserCount;
 import com.lujieni.mp.domain.po.User;
-import com.lujieni.mp.service.IUserService;
+import com.lujieni.mp.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,14 +30,16 @@ import java.util.*;
 public class UserTest {
 
     @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private IUserService iUserService;
+    private UserService userService;
 
 
+    /**
+     * 这里调用的sql是写在xml里面的
+     */
     @Test
     public void testSqlInXml(){
+        UserMapper userMapper = (UserMapper) userService.getBaseMapper();
+        userMapper.selectMethod4(null);
       /*  User user = userMapper.selectMethod();
           System.out.println(user);*/
 
@@ -52,24 +53,22 @@ public class UserTest {
         System.out.println(users);
         */
 
-        List<User> users = userMapper.selectMethod4(null);
-        System.out.println(users);
+        /*List<User> users = userMapper.selectMethod4(null);
+        System.out.println(users);*/
 
     }
 
 
-
-
     /*
-        插入一条数据
-       INSERT INTO user ( name ) VALUES ( '光头强' )
+        插入一条数据,即使你指定了id也不会帮你做更新,一直都是新增
+        INSERT INTO user ( name ) VALUES ( '光头强' )
      */
     @Test
     public void testSave(){
-        /*INSERT INTO user ( name ) VALUES ( ? )*/
         User user = new User();
-        user.setName("光头强");
-        iUserService.save(user);
+        user.setName("光头强123");
+        user.setId(16L);
+        userService.save(user);
     }
 
     /**
@@ -91,7 +90,7 @@ public class UserTest {
         list.add(user2);
         list.add(user3);
         list.add(user4);
-        iUserService.saveBatch(list,1);
+        userService.saveBatch(list,1);
     }
 
     /**
@@ -109,7 +108,7 @@ public class UserTest {
         user2.setName("嘻嘻");
         list.add(user1);
         list.add(user2);
-        iUserService.saveOrUpdateBatch(list);
+        userService.saveOrUpdateBatch(list);
     }
 
     /**
@@ -118,7 +117,7 @@ public class UserTest {
      */
     @Test
     public void testGetOne(){
-        User user = iUserService.getOne(new QueryWrapper<User>().lambda().eq(User::getName, "Angel"), false);
+        User user = userService.getOne(new QueryWrapper<User>().lambda().eq(User::getName, "Angel"), false);
         System.out.println(user);
     }
 
@@ -128,14 +127,14 @@ public class UserTest {
      */
     @Test
     public void testGetMap(){
-        Map<String, Object> map = iUserService.getMap(new QueryWrapper<User>().lambda().eq(User::getName, "Angel"));
+        Map<String, Object> map = userService.getMap(new QueryWrapper<User>().lambda().eq(User::getName, "Angel"));
         System.out.println(map);
     }
 
     @Test
     public void testPage(){
         Page<User> page = new Page<>(1, 2);
-        IPage<User> result = iUserService.page(page, new QueryWrapper<User>().lambda().eq(User::getName, "angel"));
+        IPage<User> result = userService.page(page, new QueryWrapper<User>().lambda().eq(User::getName, "angel"));
         System.out.println(result.getCurrent());//当前页码,从1开始
         System.out.println(result.getTotal());//满足数据的总条数
         /*按照当前的分页参数,返回数据可以分多少页*/
@@ -148,19 +147,27 @@ public class UserTest {
     }
 
 
+    /**
+     * 查询所有
+     */
     @Test
     public void testSelect() {
         log.info(("----- selectAll method test ------"));
-        List<User> userList = userMapper.selectList(null);
-        Assert.assertEquals(5, userList.size());
+        List<User> userList = userService.getBaseMapper().selectList(null);
+        //Assert.assertEquals(5, userList.size());
         userList.forEach(System.out::println);
     }
 
+    /**
+     * 插入一条数据,即使你指定了id也不会帮你做更新,一直都是新增
+     * INSERT INTO user ( name ) VALUES ( '陆捷旎' )
+     */
     @Test
     public void testAdd() {
         User user = new User();
+        user.setId(1L);
         user.setName("陆捷旎");
-        userMapper.insert(user);
+        userService.getBaseMapper().insert(user);
     }
 
 
@@ -170,7 +177,7 @@ public class UserTest {
     @Test
     public void testDeleteById() {
         Long id = 15L;
-        userMapper.deleteById(id);
+        userService.getBaseMapper().deleteById(id);
     }
 
     /**
@@ -179,8 +186,8 @@ public class UserTest {
      */
     @Test
     public void testDeleteByIdInBatch() {
-        List<Long> ids = Arrays.asList(14L, 13L);
-        userMapper.deleteBatchIds(ids);
+        List<Long> ids = Arrays.asList(17L, 18L);
+        userService.getBaseMapper().deleteBatchIds(ids);
     }
 
 
@@ -194,22 +201,25 @@ public class UserTest {
         Map<String, Object> columnMap = new HashMap<>();
         columnMap.put("name","angel");
         columnMap.put("age",12);
-        userMapper.deleteByMap(columnMap);
+        userService.getBaseMapper().deleteByMap(columnMap);
     }
 
     /**
      * 注意方法的嵌套
-     * DELETE FROM user WHERE (age = 21 AND name = 'av' OR ( (age < 24 AND name = '张三') ))
+     * DELETE FROM user WHERE ( (age = 21 AND name = 'av') ) OR ( (age < 24 AND name = '张三') )
      * sql的优先级: and > or
-     * 所以:age=21且name=av 或者 age<24且name=张三
+     * 提倡如果是多个条件的聚合,使用嵌套的方式来处理更直观
      */
     @Test
     public void testDelete() {
         LambdaQueryWrapper<User> lambdaQueryWrapper = new QueryWrapper<User>().lambda();
-        lambdaQueryWrapper.eq(User::getAge,21)
-                          .eq(User::getName,"av")
-                          .or(i -> i.lt(User::getAge,24).eq(User::getName,"张三"));
-        userMapper.delete(lambdaQueryWrapper);
+        lambdaQueryWrapper.and(
+                                i->i.eq(User::getAge,21).eq(User::getName,"av")
+                              )
+                          .or(
+                                  i -> i.lt(User::getAge,24).eq(User::getName,"张三")
+                             );
+        userService.getBaseMapper().delete(lambdaQueryWrapper);
     }
 
     /**
@@ -218,9 +228,9 @@ public class UserTest {
     @Test
     public void testUpdateById(){
         User user = new User();
-        user.setId(3L);
-        user.setName("Angel");
-        userMapper.updateById(user);
+        user.setId(2L);
+        user.setName("Kobe");
+        userService.getBaseMapper().updateById(user);
     }
 
     /**
@@ -229,16 +239,18 @@ public class UserTest {
      */
     @Test
     public void testSelectOne(){
-        User user = userMapper.selectOne(new QueryWrapper<User>().eq("name", "Angel").last("limit 1"));
+        User user = userService.getBaseMapper().selectOne(new QueryWrapper<User>().eq("name", "Angel").last("limit 1"));
     }
 
     /**
-     * 根据 Wrapper 条件，查询全部记录,
+     * 根据 Wrapper 条件，查询kobe,纪念他!!!
      * 注意这里返回的类型是List<Map<String, Object>>
      */
     @Test
     public void testSelectMaps(){
-        List<Map<String, Object>> list = userMapper.selectMaps(new QueryWrapper<User>().eq("name", "Angel"));
+        LambdaQueryWrapper<User> lambdaWrapper = new QueryWrapper<User>().lambda();
+        lambdaWrapper.and(i->i.eq(User::getName,"kobe").eq(User::getAge,20));
+        List<Map<String, Object>> list = userService.getBaseMapper().selectMaps(lambdaWrapper);
         log.info(list.toString());
     }
 
@@ -247,24 +259,28 @@ public class UserTest {
      */
     @Test
     public void testSelectObjs(){
-        List<Object> list = userMapper.selectObjs(new QueryWrapper<User>().eq("name", "Angel"));
+        List<Object> list = userService.getBaseMapper().selectObjs(new QueryWrapper<User>().eq("name", "Angel"));
         log.info(list.toString());
     }
 
-
+    /**
+     * 分页查询,注意要配置分页插件才可以!!!
+     * 1.SELECT COUNT(1) FROM user WHERE (name = 'redis')
+     * 2.SELECT id,name,email,age FROM user WHERE (name = 'redis') LIMIT 0,1
+     */
     @Test
     public void testSelectPage(){
         Page<User> page = new Page<>(1, 1);
-        IPage<User> iPage = userMapper.selectPage(page, new QueryWrapper<User>().lambda().eq(User::getName, "angel"));
+        IPage<User> iPage = userService.getBaseMapper().selectPage(page, new QueryWrapper<User>().lambda().eq(User::getName, "redis"));
         System.out.println(iPage.getCurrent());//当前页码,从1开始
         System.out.println(iPage.getTotal());//满足数据的总条数
         /*按照当前的分页参数,返回数据可以分多少页*/
         System.out.println(iPage.getPages());
-        /* 每页显示的条数 */
+        /* 每页显示的数据的条数 */
         System.out.println(iPage.getSize());
         /* 当前页的数据,这里是List<User>*/
         System.out.println(iPage.getRecords());
-        log.info(iPage.toString());
+        //log.info(iPage.toString());
     }
 
 
@@ -275,7 +291,7 @@ public class UserTest {
     @Test
     public void testSelectMapsPage(){
         Page<User> page = new Page<>(1, 2);
-        IPage<Map<String, Object>> mapIPage = userMapper.selectMapsPage(page, new QueryWrapper<User>().eq("name", "angel"));
+        IPage<Map<String, Object>> mapIPage = userService.getBaseMapper().selectMapsPage(page, new QueryWrapper<User>().eq("name", "angel"));
         System.out.println(mapIPage.getCurrent());//当前页码,从1开始
         System.out.println(mapIPage.getTotal());//满足数据的总条数
        /*按照当前的分页参数,返回数据可以分多少页*/

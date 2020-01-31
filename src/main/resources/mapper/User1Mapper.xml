@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--xml文件的名字不需要和dao保持一样-->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--必须指定要实现的接口-->
 <mapper namespace="com.lujieni.mp.dao.UserMapper">
-
+   <!-- mybatis是基于数据库sql的返回字段名称来进行映射的,一方面可以使用sql的别名
+    来解决,另一方面也可以自定义resultMap来自己做映射-->
     <resultMap id="myResultMap" type="com.lujieni.mp.domain.po.User">
+        <!-- column:sql的返回字段 property:实体类的字段-->
         <result column="count" property="id" />
         <result column="age" property="age" />
     </resultMap>
