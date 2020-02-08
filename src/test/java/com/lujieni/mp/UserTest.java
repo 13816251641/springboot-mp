@@ -72,8 +72,11 @@ public class UserTest {
     }
 
     /**
+     * 这个适合大数据量的保存,不会给你更新,INSERT INTO user ( name ) VALUES ( ? )
+     * 当满足batchSize的条件后会flush但不会提交,不过insert into又要重新开始了
      * 测试批量插入,分多次batch,最后一个batch的时候
      * 如果sql有问题,前面的几次batch也会回滚!!!
+     *
      */
     @Test
     public void testSaveBatch(){
@@ -85,12 +88,12 @@ public class UserTest {
         User user3 = new User();
         user3.setName("哈哈哈");
         User user4 = new User();
-        user4.setName("哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈");
+        user4.setName("哈哈哈");
         list.add(user1);
         list.add(user2);
         list.add(user3);
         list.add(user4);
-        userService.saveBatch(list,1);
+        userService.saveBatch(list,100);
     }
 
     /**
