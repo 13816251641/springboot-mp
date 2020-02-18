@@ -2,7 +2,7 @@ package com.lujieni.mp.controller;
 
 
 import com.lujieni.mp.domain.po.Person;
-import com.lujieni.mp.service.IPersonService;
+import com.lujieni.mp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +25,11 @@ import java.util.List;
 public class PersonController {
 
     @Autowired
-    private IPersonService iPersonService;
+    private PersonService personService;
 
     @GetMapping("/get_all")
     public List<Person> getAll() {
-        return iPersonService.list();
+        return personService.list();
     }
 
     @GetMapping("/save_all")
@@ -37,6 +37,6 @@ public class PersonController {
         List<Person> list = new ArrayList<>();
         list.add(new Person().setAge(25).setHobbyName("睡觉"));
         list.add(new Person().setAge(12).setHobbyName("玩玩具"));
-        iPersonService.saveBatch(list);
+        personService.saveBatch(list);
     }
 }

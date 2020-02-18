@@ -1,7 +1,7 @@
 package com.lujieni.mp;
 
 import com.lujieni.mp.domain.po.Person;
-import com.lujieni.mp.service.IPersonService;
+import com.lujieni.mp.service.PersonService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class OptimisticLockerTest {
     @Autowired
-    private IPersonService iPersonService;
+    private PersonService personService;
 
     /**
      * 乐观锁实现方式：
@@ -33,8 +33,8 @@ public class OptimisticLockerTest {
      */
     @Test
     public void test(){
-        Person person = iPersonService.getById(6);
-        if(iPersonService.updateById(person.setAge(50))){
+        Person person = personService.getById(6);
+        if(personService.updateById(person.setAge(50))){
             System.out.println("更新成功");
             System.out.println(person);
         }else{

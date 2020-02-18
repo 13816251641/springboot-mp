@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author lujieni
  * @since 2019-11-20
  */
-public interface IPersonService extends IService<Person> {
+public interface PersonService extends IService<Person> {
 
 }
