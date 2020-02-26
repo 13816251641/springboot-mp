@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-@TableName("mp2.person")//同一个host下面的不同数据库,可以这样访问
+//@TableName("mp2.person")//同一个host下面的不同数据库,可以这样访问
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;

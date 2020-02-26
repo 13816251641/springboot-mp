@@ -4,6 +4,7 @@ package com.lujieni.mp.controller;
 import com.lujieni.mp.domain.po.Person;
 import com.lujieni.mp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -38,5 +39,22 @@ public class PersonController {
         list.add(new Person().setAge(25).setHobbyName("睡觉"));
         list.add(new Person().setAge(12).setHobbyName("玩玩具"));
         personService.saveBatch(list);
+    }
+
+    /*
+       在Junit中写事务会失效,在正常的代码中书写是没问题的
+     */
+    @GetMapping("/use_transaction")
+    @Transactional
+    public void useTransaction(){
+        Person person = personService.getById(6);
+        if(personService.updateById(person.setAge(1))){
+            System.out.println("更新成功");
+            System.out.println(person);
+        }else{
+            System.out.println("更新失败");
+        }
+      /*  personService.save(new Person().setAge(77));
+        throw new RuntimeException();*/
     }
 }

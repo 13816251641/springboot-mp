@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 /**
  * @Auther ljn
  * @Date 2019/11/21
- * 测试乐观锁
+ * 测试乐观锁,junit中使用事务有问题
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,7 +34,7 @@ public class OptimisticLockerTest {
     @Test
     public void test(){
         Person person = personService.getById(6);
-        if(personService.updateById(person.setAge(50))){
+        if(personService.updateById(person.setAge(11))){
             System.out.println("更新成功");
             System.out.println(person);
         }else{
