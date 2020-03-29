@@ -1,6 +1,6 @@
 package com.lujieni.mp;
 
-import com.lujieni.mp.domain.po.Person;
+import com.lujieni.mp.domain.po.PersonVO;
 import com.lujieni.mp.service.PersonService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +33,7 @@ public class OptimisticLockerTest {
      */
     @Test
     public void test(){
-        Person person = personService.getById(6);
+        PersonVO person = personService.getById(6);
         if(personService.updateById(person.setAge(11))){
             System.out.println("更新成功");
             System.out.println(person);

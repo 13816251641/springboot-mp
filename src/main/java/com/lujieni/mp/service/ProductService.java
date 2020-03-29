@@ -1,7 +1,8 @@
 package com.lujieni.mp.service;
 
-import com.lujieni.mp.domain.po.PersonVO;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lujieni.mp.domain.po.PersonVO;
+import com.lujieni.mp.domain.po.ProductVO;
 
 /**
  * <p>
@@ -11,6 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author lujieni
  * @since 2019-11-20
  */
-public interface PersonService extends IService<PersonVO> {
+public interface ProductService extends IService<ProductVO> {
 
 }

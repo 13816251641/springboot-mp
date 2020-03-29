@@ -1,14 +1,12 @@
 package com.lujieni.mp.controller;
 
 
-import com.lujieni.mp.domain.po.Person;
+import com.lujieni.mp.domain.po.PersonVO;
 import com.lujieni.mp.service.PersonService;
+import org.omg.CORBA.PERSIST_STORE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +26,28 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
-    @GetMapping("/get_all")
-    public List<Person> getAll() {
+/*    @GetMapping("/get_all")
+    public List<PersonVO> getAll() {
         return personService.list();
+    }*/
+
+    @GetMapping("/get_all")
+    public String getAll() {
+        return "hello(123)";
     }
 
     @GetMapping("/save_all")
-    public void save() {
-        List<Person> list = new ArrayList<>();
-        list.add(new Person().setAge(25).setHobbyName("睡觉"));
-        list.add(new Person().setAge(12).setHobbyName("玩玩具"));
+    public void saveAll() {
+        List<PersonVO> list = new ArrayList<>();
+        list.add(new PersonVO().setAge(25).setHobbyName("睡觉"));
+        list.add(new PersonVO().setAge(12).setHobbyName("玩玩具"));
         personService.saveBatch(list);
+    }
+
+    @PostMapping("/save_one")
+    public String saveOne(@RequestBody PersonVO personVO) {
+       personService.save(personVO);
+       return "success";
     }
 
     /*
@@ -47,7 +56,7 @@ public class PersonController {
     @GetMapping("/use_transaction")
     @Transactional
     public void useTransaction(){
-        Person person = personService.getById(6);
+        PersonVO person = personService.getById(6);
         if(personService.updateById(person.setAge(1))){
             System.out.println("更新成功");
             System.out.println(person);

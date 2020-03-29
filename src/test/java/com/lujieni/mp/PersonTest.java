@@ -1,15 +1,13 @@
 package com.lujieni.mp;
 
-import com.lujieni.mp.domain.po.Person;
+import com.lujieni.mp.domain.po.PersonVO;
 import com.lujieni.mp.service.PersonService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class PersonTest {
 
     @Test
     public void test01(){
-        List<Person> list = personService.list();
+        List<PersonVO> list = personService.list();
         list.forEach(e->{
             System.out.println(e);
         });

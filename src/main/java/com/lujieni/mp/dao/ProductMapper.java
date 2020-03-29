@@ -1,7 +1,8 @@
 package com.lujieni.mp.dao;
 
-import com.lujieni.mp.domain.po.PersonVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lujieni.mp.domain.po.PersonVO;
+import com.lujieni.mp.domain.po.ProductVO;
 
 /**
  * <p>
@@ -11,6 +12,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author lujieni
  * @since 2019-11-20
  */
-public interface PersonMapper extends BaseMapper<PersonVO> {
+public interface ProductMapper extends BaseMapper<ProductVO> {
 
 }
